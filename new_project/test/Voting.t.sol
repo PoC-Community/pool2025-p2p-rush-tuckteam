@@ -17,7 +17,7 @@ contract VotingTest is Test {
             (string memory proposalName, ) = voting.proposals(i);
             assertEq(proposalName, array[i], "Name is not the same");
         }
-        assertEq(voting.endTime(), block.timestamp + time, "Time is not correct");
+        assertEq(voting.endTime(), block.timestamp + time * 1 hours, "Time is not correct");
     }
 
     function testVote() public {
