@@ -11,6 +11,7 @@ contract Voting {
         uint voteCount; // number of accumulated votes
     }
 
+    //address of the owner
     address public owner;
 
     // This declares a state variable that
@@ -31,5 +32,18 @@ contract Voting {
         for (uint i = 0; i < proposalName.length; i++){
             proposals.push(Proposal(proposalName[i], 0));
         }
+    }
+
+    /// Give your vote (including votes delegated to you)
+    /// to proposal `proposals[proposal].name`.
+    function vote(uint proposal) public {
+        Voter storage sender = voters[msg.sender];
+        require(!sender.voted, "You have already voted");
+        require(proposal < proposals.length, "Invalid proposal");
+
+        sender.voted = true;
+        sender.vote = proposal;
+
+        proposals[proposal].voteCount += 1;
     }
 }
