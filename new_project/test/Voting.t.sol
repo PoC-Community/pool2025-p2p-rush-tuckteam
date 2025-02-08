@@ -19,4 +19,10 @@ contract VotingTest is Test {
         }
         assertEq(voting.endTime(), block.timestamp + time, "Time is not correct");
     }
+
+    function testVote() public {
+        voting.vote(0);
+        (, uint256 voteCount) = voting.proposals(0);
+        assertEq(voteCount, 1, "Vote didn't work");
+    }
 }
