@@ -52,4 +52,8 @@ contract Voting {
 
         proposals[proposal].voteCount += 1;
     }
+
+    function getProposalLength() public view returns(uint256) {
+        return proposals.length;
+    }
 }
