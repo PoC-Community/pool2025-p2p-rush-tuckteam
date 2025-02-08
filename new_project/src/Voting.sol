@@ -20,13 +20,18 @@ contract Voting {
 
     // A dynamically-sized array of `Proposal` structs.
     Proposal[] public proposals;
+    uint256 public endTime;
+
 
     modifier onlyOwner {
         require(msg.sender == owner, "You are not the owner");
         _;
     }
 
-    constructor(bytes32[] memory proposalName) {
+    constructor(bytes32[] memory proposalName, uint256 _duration) {
+        require(block.timestamp < endTime, "The vote is finish");
+        require(_duration > 0, "The time must be positive");
+        endTime = block.timestamp + _duration;
         owner = msg.sender;
 
         for (uint i = 0; i < proposalName.length; i++){
@@ -37,6 +42,7 @@ contract Voting {
     /// Give your vote (including votes delegated to you)
     /// to proposal `proposals[proposal].name`.
     function vote(uint proposal) public {
+        require(block.timestamp >= endTime, "The vote is not finish");
         Voter storage sender = voters[msg.sender];
         require(!sender.voted, "You have already voted");
         require(proposal < proposals.length, "Invalid proposal");
