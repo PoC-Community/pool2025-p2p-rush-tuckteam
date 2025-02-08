@@ -24,5 +24,7 @@ contract VotingTest is Test {
         voting.vote(0);
         (, uint256 voteCount) = voting.proposals(0);
         assertEq(voteCount, 1, "Vote didn't work");
+        vm.expectRevert("You have already voted");
+        voting.vote(0);
     }
 }

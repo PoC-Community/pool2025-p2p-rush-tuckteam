@@ -43,7 +43,7 @@ contract Voting {
     /// Give your vote (including votes delegated to you)
     /// to proposal `proposals[proposal].name`.
     function vote(uint proposal) public {
-        require(block.timestamp < endTime, "The vote is finish");
+        require(block.timestamp < endTime, "The vote is done, call GetWWinner to see the results");
         Voter storage sender = voters[msg.sender];
         require(!sender.voted, "You have already voted");
         require(proposal < proposals.length, "Invalid proposal");
@@ -56,5 +56,15 @@ contract Voting {
 
     function getProposalLength() public view returns(uint256) {
         return proposals.length;
+    }
+
+    function getWinner() public view returns(string memory) {
+        uint256 index = 0;
+
+        for (uint256 i = 0; i < getProposalLength(); i++){
+            if (proposals[i].voteCount > index)
+                index = proposals[i].voteCount;
+        }
+        return proposals[index].name;
     }
 }
