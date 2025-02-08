@@ -7,7 +7,7 @@ contract Voting {
     }
 
     struct Proposal {
-        bytes32 name; // short name
+        string name; // short name
         uint voteCount; // number of accumulated votes
     }
 
@@ -28,7 +28,7 @@ contract Voting {
         _;
     }
 
-    constructor(bytes32[] memory proposalName, uint256 _duration) {
+    constructor(string[] memory proposalName, uint256 _duration) {
         require(block.timestamp < endTime, "The vote is finish");
         require(_duration > 0, "The time must be positive");
         endTime = block.timestamp + _duration;
